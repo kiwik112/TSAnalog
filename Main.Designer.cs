@@ -28,111 +28,126 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lsBxBinds = new System.Windows.Forms.ListBox();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.btnRemove = new System.Windows.Forms.Button();
-            this.menuStrip1.SuspendLayout();
-            this.SuspendLayout();
+            menuStrip1 = new MenuStrip();
+            fileToolStripMenuItem = new ToolStripMenuItem();
+            saveConfigToolStripMenuItem = new ToolStripMenuItem();
+            loadConfigToolStripMenuItem = new ToolStripMenuItem();
+            trainSimToolStripMenuItem = new ToolStripMenuItem();
+            connectToolStripMenuItem = new ToolStripMenuItem();
+            lsBxBinds = new ListBox();
+            btnAdd = new Button();
+            btnEdit = new Button();
+            btnRemove = new Button();
+            menuStrip1.SuspendLayout();
+            SuspendLayout();
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(243, 24);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, trainSimToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(243, 24);
+            menuStrip1.TabIndex = 0;
+            menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveConfigToolStripMenuItem,
-            this.loadConfigToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveConfigToolStripMenuItem, loadConfigToolStripMenuItem });
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new Size(37, 20);
+            fileToolStripMenuItem.Text = "File";
             // 
             // saveConfigToolStripMenuItem
             // 
-            this.saveConfigToolStripMenuItem.Name = "saveConfigToolStripMenuItem";
-            this.saveConfigToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.saveConfigToolStripMenuItem.Text = "Save config as";
+            saveConfigToolStripMenuItem.Name = "saveConfigToolStripMenuItem";
+            saveConfigToolStripMenuItem.Size = new Size(149, 22);
+            saveConfigToolStripMenuItem.Text = "Save config as";
             // 
             // loadConfigToolStripMenuItem
             // 
-            this.loadConfigToolStripMenuItem.Name = "loadConfigToolStripMenuItem";
-            this.loadConfigToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.loadConfigToolStripMenuItem.Text = "Load config";
+            loadConfigToolStripMenuItem.Name = "loadConfigToolStripMenuItem";
+            loadConfigToolStripMenuItem.Size = new Size(149, 22);
+            loadConfigToolStripMenuItem.Text = "Load config";
+            // 
+            // trainSimToolStripMenuItem
+            // 
+            trainSimToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { connectToolStripMenuItem });
+            trainSimToolStripMenuItem.Name = "trainSimToolStripMenuItem";
+            trainSimToolStripMenuItem.Size = new Size(67, 20);
+            trainSimToolStripMenuItem.Text = "Train Sim";
+            // 
+            // connectToolStripMenuItem
+            // 
+            connectToolStripMenuItem.Name = "connectToolStripMenuItem";
+            connectToolStripMenuItem.Size = new Size(119, 22);
+            connectToolStripMenuItem.Text = "Connect";
+            connectToolStripMenuItem.Click += connectToolStripMenuItem_Click;
             // 
             // lsBxBinds
             // 
-            this.lsBxBinds.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lsBxBinds.FormattingEnabled = true;
-            this.lsBxBinds.ItemHeight = 15;
-            this.lsBxBinds.Location = new System.Drawing.Point(12, 27);
-            this.lsBxBinds.Name = "lsBxBinds";
-            this.lsBxBinds.Size = new System.Drawing.Size(216, 364);
-            this.lsBxBinds.TabIndex = 1;
+            lsBxBinds.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lsBxBinds.FormattingEnabled = true;
+            lsBxBinds.ItemHeight = 15;
+            lsBxBinds.Items.AddRange(new object[] { "Not connected to Train Sim" });
+            lsBxBinds.Location = new Point(12, 27);
+            lsBxBinds.Name = "lsBxBinds";
+            lsBxBinds.Size = new Size(216, 364);
+            lsBxBinds.TabIndex = 1;
+            lsBxBinds.SelectedIndexChanged += lsBxBinds_SelectedIndexChanged;
             // 
             // btnAdd
             // 
-            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd.Location = new System.Drawing.Point(12, 406);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(68, 25);
-            this.btnAdd.TabIndex = 2;
-            this.btnAdd.Text = "Add";
-            this.btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnAdd.Enabled = false;
+            btnAdd.Location = new Point(12, 406);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(68, 25);
+            btnAdd.TabIndex = 2;
+            btnAdd.Text = "Add";
+            btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
             // 
             // btnEdit
             // 
-            this.btnEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEdit.Location = new System.Drawing.Point(86, 406);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(68, 25);
-            this.btnEdit.TabIndex = 3;
-            this.btnEdit.Text = "Edit";
-            this.btnEdit.UseVisualStyleBackColor = true;
+            btnEdit.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnEdit.Enabled = false;
+            btnEdit.Location = new Point(86, 406);
+            btnEdit.Name = "btnEdit";
+            btnEdit.Size = new Size(68, 25);
+            btnEdit.TabIndex = 3;
+            btnEdit.Text = "Edit";
+            btnEdit.UseVisualStyleBackColor = true;
+            btnEdit.Click += btnEdit_Click;
             // 
             // btnRemove
             // 
-            this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRemove.Location = new System.Drawing.Point(160, 406);
-            this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(68, 25);
-            this.btnRemove.TabIndex = 4;
-            this.btnRemove.Text = "Remove";
-            this.btnRemove.UseVisualStyleBackColor = true;
+            btnRemove.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            btnRemove.Enabled = false;
+            btnRemove.Location = new Point(160, 406);
+            btnRemove.Name = "btnRemove";
+            btnRemove.Size = new Size(68, 25);
+            btnRemove.TabIndex = 4;
+            btnRemove.Text = "Remove";
+            btnRemove.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(243, 443);
-            this.Controls.Add(this.btnRemove);
-            this.Controls.Add(this.btnEdit);
-            this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.lsBxBinds);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Main";
-            this.Text = "Main";
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(243, 443);
+            Controls.Add(btnRemove);
+            Controls.Add(btnEdit);
+            Controls.Add(btnAdd);
+            Controls.Add(lsBxBinds);
+            Controls.Add(menuStrip1);
+            MainMenuStrip = menuStrip1;
+            Name = "Main";
+            Text = "Main";
+            FormClosed += Main_FormClosed;
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -145,5 +160,7 @@
         private Button btnAdd;
         private Button btnEdit;
         private Button btnRemove;
+        private ToolStripMenuItem trainSimToolStripMenuItem;
+        private ToolStripMenuItem connectToolStripMenuItem;
     }
 }

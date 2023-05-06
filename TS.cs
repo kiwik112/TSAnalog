@@ -27,18 +27,20 @@ namespace TSAnalog
 
         [DllImport(@"D:\Program Files (x86)\Steam\steamapps\common\RailWorks\plugins\Raildriver64.dll")]
         static extern void SetControllerValue(int controlID, float value);
+
         public static string[] getData()
         {
             string? name = Marshal.PtrToStringAnsi(GetLocoName());
             string? controls = Marshal.PtrToStringAnsi(GetControllerList());
             if (name == null || controls == null)
             {
-                DialogResult result = MessageBox.Show("Locomotive did not report name and/or it's controls. Do you wan't to restart the application?", "Loco error", MessageBoxButtons.YesNo);
+                DialogResult result = MessageBox.Show("Locomotive did not report name and/or it's controls. Retry?", "Loco error", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes) Application.Restart();
                 Environment.Exit(1);
             }
             return new string[] { name, controls };
         }
+
         public static bool Connect(int secondsWait = 5)
         {
             //retry a few times in quick succession
@@ -60,7 +62,7 @@ namespace TSAnalog
 
             return GetRailSimConnected();
         }
-    //My code begins here
+        //My code begins here
         public static float[] GetControl(int id)
         {
             float current = GetControllerValue(id, 0);
