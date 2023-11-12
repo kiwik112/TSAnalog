@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using SharpDX.DirectInput;
+using System.Diagnostics;
 
 namespace TSAnalog
 {
@@ -15,21 +8,35 @@ namespace TSAnalog
         public Main()
         {
             InitializeComponent();
-            Thread com = new Thread(COM.Begin);
-            com.Start();
         }
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new ConnectPrompt().ShowDialog();
-            lsBxBinds.Items.Clear();
+            if (!File.Exists(@"D:\Program Files (x86)\Steam\steamapps\common\RailWorks\plugins\Raildriver64.dll"))
+            {
+                MessageBox.Show("Shid.");
+                Environment.Exit(0);
+            }
+            TS.Connect();
+            string[] locoPath = TS.GetData()[0].Split(".:.");
+            Text = locoPath[locoPath.Length - 1];
+            lsBxDevices.Items.Clear();
             btnAdd.Enabled = true;
+            MessageBox.Show($"Connected to {locoPath[locoPath.Length - 1]}.", "Success");
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            new ControlDialog().ShowDialog();
-            refresh();
+            DeviceDialog deviceDialog = new DeviceDialog();
+            deviceDialog.ShowDialog();
+
+            foreach (Joystick joystick in Interface.GetActiveJoysticks())
+            {
+                Debug.WriteLine($"Niga {joystick.Information.InstanceGuid}; {joystick.Information.ProductGuid}");
+            }
+
+            updateDeviceList();
+
         }
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
@@ -37,28 +44,33 @@ namespace TSAnalog
             Environment.Exit(0);
         }
 
-        private void refresh()
+        private void btnEdit_Click(object sender, EventArgs e)
         {
-            lsBxBinds.Items.Clear();
-            btnEdit.Enabled = false;
-            btnRemove.Enabled = false;
-            foreach (Control control in COM.Controls)
-            {
-                lsBxBinds.Items.Add(control.Name);
-            }
+            Controls controls = new Controls { device = lsBxDevices.SelectedIndex };
+            controls.ShowDialog();
+
         }
 
-        private void lsBxBinds_SelectedIndexChanged(object sender, EventArgs e)
+        private void selectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lsBxDevices_SelectedIndexChanged(object sender, EventArgs e)
         {
             btnEdit.Enabled = true;
             btnRemove.Enabled = true;
         }
 
-        private void btnEdit_Click(object sender, EventArgs e)
+        private void updateDeviceList()
         {
-            ControlDialog controlDialog = new ControlDialog();
-            controlDialog.EditIndex = lsBxBinds.SelectedIndex;
-            controlDialog.Show();
+            lsBxDevices.Items.Clear();
+            foreach (Joystick joystick in Interface.GetActiveJoysticks()) lsBxDevices.Items.Add(joystick.Information.ProductName);
         }
     }
 }

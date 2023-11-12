@@ -34,7 +34,7 @@
             loadConfigToolStripMenuItem = new ToolStripMenuItem();
             trainSimToolStripMenuItem = new ToolStripMenuItem();
             connectToolStripMenuItem = new ToolStripMenuItem();
-            lsBxBinds = new ListBox();
+            lsBxDevices = new ListBox();
             btnAdd = new Button();
             btnEdit = new Button();
             btnRemove = new Button();
@@ -83,17 +83,17 @@
             connectToolStripMenuItem.Text = "Connect";
             connectToolStripMenuItem.Click += connectToolStripMenuItem_Click;
             // 
-            // lsBxBinds
+            // lsBxDevices
             // 
-            lsBxBinds.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lsBxBinds.FormattingEnabled = true;
-            lsBxBinds.ItemHeight = 15;
-            lsBxBinds.Items.AddRange(new object[] { "Not connected to Train Sim" });
-            lsBxBinds.Location = new Point(12, 27);
-            lsBxBinds.Name = "lsBxBinds";
-            lsBxBinds.Size = new Size(216, 364);
-            lsBxBinds.TabIndex = 1;
-            lsBxBinds.SelectedIndexChanged += lsBxBinds_SelectedIndexChanged;
+            lsBxDevices.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lsBxDevices.FormattingEnabled = true;
+            lsBxDevices.ItemHeight = 15;
+            lsBxDevices.Items.AddRange(new object[] { "Not connected to Train Sim" });
+            lsBxDevices.Location = new Point(12, 27);
+            lsBxDevices.Name = "lsBxDevices";
+            lsBxDevices.Size = new Size(216, 364);
+            lsBxDevices.TabIndex = 1;
+            lsBxDevices.SelectedIndexChanged += lsBxDevices_SelectedIndexChanged;
             // 
             // btnAdd
             // 
@@ -138,12 +138,13 @@
             Controls.Add(btnRemove);
             Controls.Add(btnEdit);
             Controls.Add(btnAdd);
-            Controls.Add(lsBxBinds);
+            Controls.Add(lsBxDevices);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
             Name = "Main";
             Text = "Main";
             FormClosed += Main_FormClosed;
+            Load += Main_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);
@@ -156,7 +157,7 @@
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem saveConfigToolStripMenuItem;
         private ToolStripMenuItem loadConfigToolStripMenuItem;
-        private ListBox lsBxBinds;
+        private ListBox lsBxDevices;
         private Button btnAdd;
         private Button btnEdit;
         private Button btnRemove;

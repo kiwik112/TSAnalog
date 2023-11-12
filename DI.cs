@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;using System.Threading.Tasks;
 using SharpDX.DirectInput;
 
 namespace TSAnalog
@@ -14,42 +8,29 @@ namespace TSAnalog
         public static Dictionary<string, int> Axes = new Dictionary<string, int>();
         public static List<string> SelectedAxes = new List<string>();
 
-        static List<Joystick> joysticks = new List<Joystick>();
-        static Joystick? joystick;
-        public static string[] GetDevices()
+        public static List<Joystick> joysticks = new List<Joystick>();
+
+        public static Joystick[] GetDevices()
         {
             DirectInput directInput = new DirectInput();
-            List<string> names = new List<string>();
+            joysticks = new List<Joystick>();
             foreach (DeviceInstance deviceInstance in directInput.GetDevices())
             {
                 Debug.WriteLine(deviceInstance.InstanceGuid);
                 if (deviceInstance.InstanceGuid == Guid.Empty) continue;
                 joysticks.Add(new Joystick(directInput, deviceInstance.InstanceGuid));
             }
-            foreach (Joystick joy in joysticks)
-            {
-                names.Add(joy.Information.ProductName);
-            }
-            return names.ToArray();
+            return joysticks.ToArray();
         }
 
-        public static void SetDevice(int index)
-        {
-            if (joystick == joysticks[index]) return;
-            joystick = joysticks[index];
-            MessageBox.Show(joystick.Information.ProductName, "Connected:");
-            joystick.Properties.BufferSize = 128;
-            joystick.Acquire();
-        }
-
-        public static JoystickUpdate[] Get()
+        public static JoystickUpdate[] Get(Joystick joystick, int index)
         {
             if (joystick == null) return Array.Empty<JoystickUpdate>();
             joystick.Poll();
             return joystick.GetBufferedData();
         }
 
-        public static int Get(string axis)
+        public static int Get(Joystick joystick, string axis)
         {
             if (joystick == null) return 0;
             joystick.Poll();
@@ -69,7 +50,7 @@ namespace TSAnalog
             return Axes[axis];
         }
 
-        public static string[] GetAxes()
+        public static string[] GetAxes(Joystick joystick)
         {
             if (joystick == null) return Array.Empty<string>();
             string[] axes = { "X", "Y", "Z", "RotationX", "RotationY", "RotationZ", "Rudder", "Throttle", "Accelerator", "Brake", "Steering" };
