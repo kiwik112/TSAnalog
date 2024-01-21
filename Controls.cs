@@ -55,7 +55,7 @@
 		{
 			DialogResult result = MessageBox.Show("Are you sure you want to remove '" + Interface.ActiveDevices[device].controls[lsBxControls.SelectedIndex].name + "' ?", "", MessageBoxButtons.YesNo);
 			if (result == DialogResult.No) return;
-			Interface.ActiveDevices.RemoveAt(lsBxControls.SelectedIndex);
+			Interface.ActiveDevices[device].controls.RemoveAt(lsBxControls.SelectedIndex);
 			refresh();
 			updateLocks();
 		}
