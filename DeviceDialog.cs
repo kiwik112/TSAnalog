@@ -38,14 +38,15 @@ namespace TSAnalog
         {
             Device device = new Device();
             device.joystick = displayedDevices[lsBxDevice.SelectedIndex];
+            device.joystick.Properties.BufferSize = 512;
+            device.joystick.Acquire();
             Interface.ActiveDevices.Add(device);
             Close();
         }
 
         private void lsBxDevice_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lsBxDevice.SelectedIndex < 0) btnAdd.Enabled = false;
-            else btnAdd.Enabled = true;
+            btnAdd.Enabled = lsBxDevice.SelectedIndex >= 0;
         }
 
         private bool isActive(Joystick joystick)

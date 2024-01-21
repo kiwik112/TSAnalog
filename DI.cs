@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
 using SharpDX.DirectInput;
 
 namespace TSAnalog
@@ -10,6 +11,7 @@ namespace TSAnalog
 
         public static List<Joystick> joysticks = new List<Joystick>();
 
+        public static JoystickOffset[] AllAxes = { JoystickOffset.X, JoystickOffset.Y, JoystickOffset.Z, JoystickOffset.RotationX, JoystickOffset.RotationY, JoystickOffset.RotationZ, JoystickOffset.Sliders0, JoystickOffset.Sliders1 };
         public static Joystick[] GetDevices()
         {
             DirectInput directInput = new DirectInput();
@@ -32,34 +34,30 @@ namespace TSAnalog
 
         public static int Get(Joystick joystick, string axis)
         {
-            if (joystick == null) return 0;
+            if (joystick == null) return -1;
             joystick.Poll();
             int value = -1;
             foreach (JoystickUpdate update in joystick.GetBufferedData())
             {
-                if (SelectedAxes.Contains(update.Offset.ToString()))
-                {
-                    Axes[update.Offset.ToString()] = update.Value;
-                }
-
+                Debug.WriteLine($"Update: {update.Offset.ToString()} {axis} {update.Value}");
                 if (update.Offset.ToString() == axis)
                 {
                     value = update.Value;
                 }
             }
-            return Axes[axis];
+            return value;
         }
 
-        public static string[] GetAxes(Joystick joystick)
+        public static JoystickOffset[] GetAxes(Joystick joystick)
         {
-            if (joystick == null) return Array.Empty<string>();
-            string[] axes = { "X", "Y", "Z", "RotationX", "RotationY", "RotationZ", "Rudder", "Throttle", "Accelerator", "Brake", "Steering" };
-            List<string> available = new List<string>();
-            foreach (string axis in axes)
+            if (joystick == null) return Array.Empty<JoystickOffset>();
+            string[] axes = { "X", "Y", "Z", "RotationX", "RotationY", "RotationZ", "Sliders0", "Sliders1" };
+            List<JoystickOffset> available = new List<JoystickOffset>();
+            foreach (JoystickOffset axis in AllAxes)
             {
                 try
                 {
-                    joystick.GetObjectInfoByName(axis);
+                    joystick.GetObjectInfoByOffset((int)axis);
                 }
                 catch
                 {
@@ -77,7 +75,7 @@ namespace TSAnalog
                 {
                     continue;
                 }
-                available.Add("Buttons" + i);
+                available.Add((JoystickOffset)(48 + i));
             }
             return available.ToArray();
         }

@@ -1,9 +1,4 @@
 ﻿using SharpDX.DirectInput;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TSAnalog
 {
@@ -17,7 +12,17 @@ namespace TSAnalog
     {
         public string name;
         public int tsid; // ID of control in Train Sim
-        public string axis;
+        public JoystickOffset axis;
         public bool inverted;
+        public int joyMin = 0;
+        public int joyMax = 65535;
+        public float trainMin = 0;
+        public float trainMax = 0;
+		public float trainLast = 0;
+
+		public Control(string name)
+		{
+			this.name = name;
+		}
     }
 }

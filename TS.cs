@@ -10,7 +10,7 @@ namespace TSAnalog
         static extern void SetRailDriverConnected(bool isConnected);
 
         [DllImport(@"D:\Program Files (x86)\Steam\steamapps\common\RailWorks\plugins\Raildriver64.dll")]
-        static extern bool GetRailSimConnected();
+        public static extern bool GetRailSimConnected();
 
         [DllImport(@"D:\Program Files (x86)\Steam\steamapps\common\RailWorks\plugins\Raildriver64.dll")]
         static extern IntPtr GetLocoName();
@@ -24,18 +24,21 @@ namespace TSAnalog
         [DllImport(@"D:\Program Files (x86)\Steam\steamapps\common\RailWorks\plugins\Raildriver64.dll")]
         static extern void SetControllerValue(int controlID, float value);
 
-        public static string[] GetData()
-        {
-            string? name = Marshal.PtrToStringAnsi(GetLocoName());
-            string? controls = Marshal.PtrToStringAnsi(GetControllerList());
-            Debug.WriteLine("Name: " + name + "\nControls: " + controls);
-            if (name == "" || controls == "")
-            {
-                DialogResult result = MessageBox.Show("Locomotive did not report name and/or it's controls. Retry?", "Loco error", MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes) Application.Restart();
-                Environment.Exit(1);
-            }
-            return new string[] { name, controls };
+		public static string[] GetData()
+		{
+			while (true)
+			{
+				string? name = Marshal.PtrToStringAnsi(GetLocoName());
+				string? controls = Marshal.PtrToStringAnsi(GetControllerList());
+				Debug.WriteLine("Name: " + name + "\nControls: " + controls);
+				if (name == "" || controls == "")
+				{
+					DialogResult result = MessageBox.Show("Locomotive did not report name and/or it's controls. Retry?", "Loco error", MessageBoxButtons.YesNo);
+					if (result == DialogResult.Yes) continue;
+					Environment.Exit(1);
+				}
+				return [name, controls];
+			}
         }
 
         public static bool Connect(int secondsWait = 5)
