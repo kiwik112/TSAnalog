@@ -6,7 +6,8 @@ namespace TSAnalog
     //Some of this code is 'borrowed' and/or modified from: https://github.com/luca009/RWAnalog
     internal class TS
     {
-        [DllImport(@"D:\Program Files (x86)\Steam\steamapps\common\RailWorks\plugins\Raildriver64.dll")]
+#if DEBUG
+		[DllImport(@"D:\Program Files (x86)\Steam\steamapps\common\RailWorks\plugins\Raildriver64.dll")]
         static extern void SetRailDriverConnected(bool isConnected);
 
         [DllImport(@"D:\Program Files (x86)\Steam\steamapps\common\RailWorks\plugins\Raildriver64.dll")]
@@ -23,6 +24,25 @@ namespace TSAnalog
 
         [DllImport(@"D:\Program Files (x86)\Steam\steamapps\common\RailWorks\plugins\Raildriver64.dll")]
         static extern void SetControllerValue(int controlID, float value);
+#else
+		[DllImport(@"..\Raildriver64.dll")]
+		static extern void SetRailDriverConnected(bool isConnected);
+
+		[DllImport(@"..\Raildriver64.dll")]
+		public static extern bool GetRailSimConnected();
+
+		[DllImport(@"..\Raildriver64.dll")]
+		static extern IntPtr GetLocoName();
+
+		[DllImport(@"..\Raildriver64.dll")]
+		static extern IntPtr GetControllerList();
+
+		[DllImport(@"..\Raildriver64.dll")]
+		static extern float GetControllerValue(int controlID, int type);
+
+		[DllImport(@"..\Raildriver64.dll")]
+		static extern void SetControllerValue(int controlID, float value);
+#endif
 
 		public static string[] GetData()
 		{
